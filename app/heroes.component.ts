@@ -3,7 +3,6 @@ import { Router }            from '@angular/router';
 
 import { HeroService } from './hero.service';
 import { Hero }        from './hero';
-import { HEROES }      from './mock-heroes';
 
 @Component({
   moduleId: module.id,
@@ -35,5 +34,14 @@ export class HeroesComponent implements OnInit {
 
   gotoDetail(): void {
     this.router.navigate(['/detail', this.selectedHero.id]);
+  }
+
+  delete(hero: Hero): void {
+    this.heroService
+      .delete(hero.id)
+      .then(() => {
+        this.heroes = this.heroes.filter(h => h !== hero);
+        if (this.selectedHero === hero) { this.selectedHero = null; }
+      });
   }
 }
